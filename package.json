@@ -1,0 +1,34 @@
+{
+  "name": "mrdestructoid",
+  "version": "1.0.0",
+  "description": "A typical twitch chat bot.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pysudo/MrDestructoid.git"
+  },
+  "keywords": [
+    "mrdestructoid",
+    "bot",
+    "twitch",
+    "gaming",
+    "games",
+    "game",
+    "bots",
+    "chat",
+    "chats",
+    "chatting"
+  ],
+  "author": "",
+  "license": "AGPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/pysudo/MrDestructoid/issues"
+  },
+  "homepage": "https://github.com/pysudo/MrDestructoid#readme",
+  "dependencies": {
+    "tmi.js": "^1.7.1"
+  }
+}
