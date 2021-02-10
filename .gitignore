@@ -1,2 +1,5 @@
 Ignore dependencies
 node_modules/
+
+Ignores env vars
+.env
