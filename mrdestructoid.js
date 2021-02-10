@@ -1,13 +1,14 @@
+require('dotenv').config()
 const tmi = require('tmi.js');
 
 // Define configuration options
 const opts = {
   identity: {
-    username: {/* <BOT_USERNAME> */},
-    password: {/* <OAUTH_TOKEN> */}
+    username: process.env.BOT_USERNAME,
+    password: process.env.OAUTH_TOKEN
   },
   channels: [
-    {/* <CHANNEL_NAME> */}
+    process.env.CHANNEL_NAME,
   ]
 };
 // Create a client with our options
@@ -21,14 +22,14 @@ client.on('connected', onConnectedHandler);
 client.connect();
 
 // Called every time a message comes in
-function onMessageHandler (target, context, msg, self) {
+function onMessageHandler(target, context, msg, self) {
   if (self) { return; } // Ignore messages from the bot
 
   // Remove whitespace from chat message
   const commandName = msg.trim();
 
   // If the command is known, let's execute it
-  if (commandName === '!ping') {
+  if (commandName === '!usa') {
     const res = ping();
     client.say(target, res);
     console.log(`* Executed ${commandName} command`);
@@ -37,10 +38,10 @@ function onMessageHandler (target, context, msg, self) {
   }
 }
 // Function called when the "ping" command is issued
-function ping () {
+function ping() {
   return "KKona 7";
 }
 // Called every time the bot connects to Twitch chat
-function onConnectedHandler (addr, port) {
+function onConnectedHandler(addr, port) {
   console.log(`* Connected to ${addr}:${port}`);
 }

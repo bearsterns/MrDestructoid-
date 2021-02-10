@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/pysudo/MrDestructoid#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "tmi.js": "^1.7.1"
   }
 }
