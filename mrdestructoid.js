@@ -1,6 +1,8 @@
 require('dotenv').config()
 const tmi = require('tmi.js');
 
+const { execCmd } = require('./commands');
+
 // Define configuration options
 const opts = {
   identity: {
@@ -26,21 +28,18 @@ function onMessageHandler(target, context, msg, self) {
   if (self) { return; } // Ignore messages from the bot
 
   // Remove whitespace from chat message
-  const commandName = msg.trim();
+  const command = msg.trim();
+  const message = execCmd(command);
 
-  // If the command is known, let's execute it
-  if (commandName === '!usa') {
-    const res = ping();
-    client.say(target, res);
-    console.log(`* Executed ${commandName} command`);
-  } else {
-    console.log(`* Unknown command ${commandName}`);
+  if (message) {
+    console.log(`* Executed ${command} command`);
+    client.say(target, message);
+  }
+  else {
+    console.log(`* Unknown command ${command}`);
   }
 }
-// Function called when the "ping" command is issued
-function ping() {
-  return "KKona 7";
-}
+
 // Called every time the bot connects to Twitch chat
 function onConnectedHandler(addr, port) {
   console.log(`* Connected to ${addr}:${port}`);
