@@ -26,9 +26,10 @@ client.connect();
 // Called every time a message comes in
 function onMessageHandler(target, context, msg, self) {
   if (self) { return; } // Ignore messages from the bot
-
-  // Remove whitespace from chat message
-  const command = msg.trim();
+ 
+  /* Trims whitespace on either side of the chat message and replaces multiple
+     whitespaces, tabs or newlines between words with just one whitespace */
+  let command = msg.trim().replace(/\s\s+/g, ' ');
   const message = execCmd(command);
 
   if (message) {
