@@ -16,14 +16,13 @@ module.exports.execCmd = function executeCommand(command) {
         Usage: !replace [word replaced] [new word] [message]
     */
     if (commandLines[0] === `${PREFIX}replace`) {
-        console.log("REPLACE COMMANDS")
         if (commandLines[1] === 'help') {
             return "Usage: !replace [replaced_word] [new_word] [message]";
         }
 
         const originalMsg = commandLines.splice(3);
         let replacedMsg = originalMsg.join(' ');
-        const re = new RegExp(`${commandLines[1]}`, 'g');
+        const re = new RegExp(`\\b${commandLines[1]}\\b`, 'g');
 
         return replacedMsg.replace(re, commandLines[2]);;
     }
