@@ -24,7 +24,15 @@ module.exports.execCmd = function executeCommand(command) {
         let replacedMsg = originalMsg.join(' ');
         const re = new RegExp(`\\b${commandLines[1]}\\b`, 'g');
 
-        return replacedMsg.replace(re, commandLines[2]);;
+        return replacedMsg.replace(re, commandLines[2]);
+    }
+
+    if (commandLines[0] === `${PREFIX}parrot`) {
+
+        const originalMsg = commandLines.splice(1);
+        let replacedMsg = originalMsg.join(' ');
+
+        return replacedMsg;
     }
 
 };
