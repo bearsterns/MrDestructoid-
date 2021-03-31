@@ -1,12 +1,10 @@
-const PREFIX = '!';
-
 module.exports.execCmd = function executeCommand(command) {
     const commandLines = command.split(' ');
 
     /*  Checks if the bot is available 
         Usage: !ping 
     */
-    if (commandLines[0] === `${PREFIX}ping`) {
+    if (commandLines[0] === `${process.env.PREFIX}ping`) {
 
         return 'Uncle Sam reporting for duty! 🇺🇸 KKona 7';
     }
@@ -15,7 +13,7 @@ module.exports.execCmd = function executeCommand(command) {
     /*  Replaces one word with another   
         Usage: !replace [word replaced] [new word] [message]
     */
-    if (commandLines[0] === `${PREFIX}replace`) {
+    if (commandLines[0] === `${process.env.PREFIX}replace`) {
         if (commandLines[1] === 'help') {
             return "Usage: !replace [replaced_word] [new_word] [message]";
         }
@@ -27,7 +25,7 @@ module.exports.execCmd = function executeCommand(command) {
         return replacedMsg.replace(re, commandLines[2]);
     }
 
-    if (commandLines[0] === `${PREFIX}parrot`) {
+    if (commandLines[0] === `${process.env.PREFIX}parrot`) {
 
         const originalMsg = commandLines.splice(1);
         let replacedMsg = originalMsg.join(' ');

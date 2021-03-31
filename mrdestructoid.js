@@ -3,7 +3,6 @@ const tmi = require('tmi.js');
 
 const { execCmd } = require('./commands');
 
-
 if (
   (process.argv.length !== 4 &&
     process.argv.length !== 6) ||
@@ -55,7 +54,12 @@ client.connect();
 
 // Called every time a message comes in
 function onMessageHandler(target, context, msg, self) {
+  const prefixLength = process.env.PREFIX.length;
   if (self) { return; } // Ignore messages from the bot
+  // Ignore non-prefixed messages
+  if (!(msg.substring(0, prefixLength) === process.env.PREFIX)) {
+    return;
+  }
 
   /* Trims whitespace on either side of the chat message and replaces multiple
      whitespaces, tabs or newlines between words with just one whitespace */
