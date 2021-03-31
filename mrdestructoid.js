@@ -3,16 +3,44 @@ const tmi = require('tmi.js');
 
 const { execCmd } = require('./commands');
 
+
+if (
+  (process.argv.length !== 4 &&
+    process.argv.length !== 6) ||
+  process.argv[2] !== "--debug" ||
+  (
+    process.argv[3] !== "true" &&
+    process.argv[3] !== "false"
+  )
+) {
+  console.log("Usage: node mrdestructoid.js --debug [boolean] [OPTIONS]...");
+  console.log("\nOptions:")
+  console.log("        --join [CHANNEL_NAME], Bot joins specified channel, debug must be false. Default channel name must be specified in env vars.");
+  process.exit();
+}
+
 // Define configuration options
-const opts = {
+let opts = {
   identity: {
-    username: process.env.BOT_USERNAME,
-    password: process.env.OAUTH_TOKEN
+    username: (process.argv[3] === "true")
+      ? process.env.BOT_USERNAME_DEV
+      : process.env.BOT_USERNAME,
+    password: (process.argv[3] === "true")
+      ? process.env.OAUTH_TOKEN_DEV
+      : process.env.OAUTH_TOKEN
   },
   channels: [
-    process.env.CHANNEL_NAME,
+    (process.argv[3] === "true")
+      ? process.env.CHANNEL_NAME_DEV
+      : (
+        // TODO: Dynamic append/removal of channel names via CLI or Twitch IRC
+        (process.argv[5] == undefined)
+          ? process.env.CHANNEL_NAME
+          : process.argv[5]
+      )
   ]
-};
+}
+
 // Create a client with our options
 const client = new tmi.client(opts);
 
@@ -20,13 +48,15 @@ const client = new tmi.client(opts);
 client.on('message', onMessageHandler);
 client.on('connected', onConnectedHandler);
 
+
 // Connect to Twitch:
 client.connect();
+
 
 // Called every time a message comes in
 function onMessageHandler(target, context, msg, self) {
   if (self) { return; } // Ignore messages from the bot
- 
+
   /* Trims whitespace on either side of the chat message and replaces multiple
      whitespaces, tabs or newlines between words with just one whitespace */
   let command = msg.trim().replace(/\s\s+/g, ' ');
