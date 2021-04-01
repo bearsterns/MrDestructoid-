@@ -1,36 +1,45 @@
-module.exports.execCmd = function executeCommand(command) {
-    const commandLines = command.split(' ');
-
-    /*  Checks if the bot is available 
+function ping() {
+    /*  Checks if the bot is available.
         Usage: !ping 
     */
-    if (commandLines[0] === `${process.env.PREFIX}ping`) {
 
-        return 'Uncle Sam reporting for duty! 🇺🇸 KKona 7';
-    }
+    return 'Uncle Sam reporting for duty! 🇺🇸 KKona 7';
+}
 
-
-    /*  Replaces one word with another   
+function replace(commandLines) {
+    /*  Replaces one word with another.
         Usage: !replace [word replaced] [new word] [message]
     */
-    if (commandLines[0] === `${process.env.PREFIX}replace`) {
-        if (commandLines[1] === 'help') {
-            return "Usage: !replace [replaced_word] [new_word] [message]";
-        }
 
-        const originalMsg = commandLines.splice(3);
-        let replacedMsg = originalMsg.join(' ');
-        const re = new RegExp(`\\b${commandLines[1]}\\b`, 'g');
+    if (commandLines[1] === 'help') {
 
-        return replacedMsg.replace(re, commandLines[2]);
+        return `Usage: ${process.env.PREFIX}replace [replaced_word] [new_word] [message]`;
     }
 
-    if (commandLines[0] === `${process.env.PREFIX}parrot`) {
+    const originalMsg = commandLines.splice(3);
+    let replacedMsg = originalMsg.join(' ');
+    const re = new RegExp(`\\b${commandLines[1]}\\b`, 'g');
 
-        const originalMsg = commandLines.splice(1);
-        let replacedMsg = originalMsg.join(' ');
+    return replacedMsg.replace(re, commandLines[2]);
+}
 
-        return replacedMsg;
+function parrot(context, commandLines) {
+    /*  Regurgitates the user's message.   
+        Usage: !parrot [message]
+    */
+
+    if (commandLines[1] === 'help') {
+        return `Usage: ${process.env.PREFIX}parrot [message]`;
     }
 
+    const originalMsg = commandLines.splice(1);
+    let replacedMsg = originalMsg.join(' ');
+
+    return replacedMsg;
+}
+
+module.exports = {
+    ping,
+    replace,
+    parrot
 };

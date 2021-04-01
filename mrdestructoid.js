@@ -1,7 +1,7 @@
 require('dotenv').config()
 const tmi = require('tmi.js');
 
-const { execCmd } = require('./commands');
+const { execCmd } = require('./helper');
 
 if (
   (process.argv.length !== 4 &&
@@ -64,7 +64,7 @@ function onMessageHandler(target, context, msg, self) {
   /* Trims whitespace on either side of the chat message and replaces multiple
      whitespaces, tabs or newlines between words with just one whitespace */
   let command = msg.trim().replace(/\s\s+/g, ' ');
-  const message = execCmd(command);
+  const message = execCmd(context, command);
 
   if (message) {
     console.log(`* Executed ${command} command`);
