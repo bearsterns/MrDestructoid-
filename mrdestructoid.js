@@ -63,15 +63,16 @@ function onMessageHandler(target, context, msg, self) {
 
   /* Trims whitespace on either side of the chat message and replaces multiple
      whitespaces, tabs or newlines between words with just one whitespace */
-  let command = msg.trim().replace(/\s\s+/g, ' ');
-  const message = execCmd(context, command);
+  let request = msg.trim().replace(/\s\s+/g, ' ');
+  request = request.split(' ');
+  const response = execCmd(context, request);
 
-  if (message) {
-    console.log(`* Executed ${command} command`);
-    client.say(target, message);
+  if (response) {
+    console.log(`* Executed ${request} command`);
+    client.say(target, response);
   }
   else {
-    console.log(`* Unknown command ${command}`);
+    console.log(`* Unknown command ${request}`);
   }
 }
 

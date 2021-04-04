@@ -6,36 +6,36 @@ function ping() {
     return 'Uncle Sam reporting for duty! 🇺🇸 KKona 7';
 }
 
-function replace(commandLines) {
+function replace(request) {
     /*  Replaces one word with another.
         Usage: !replace [word replaced] [new word] [message]
     */
 
-    if (commandLines[1] === 'help') {
+    if (request[1] === 'help') {
 
         return `Usage: ${process.env.PREFIX}replace [replaced_word] [new_word] [message]`;
     }
 
-    const originalMsg = commandLines.splice(3);
-    let replacedMsg = originalMsg.join(' ');
-    const re = new RegExp(`\\b${commandLines[1]}\\b`, 'g');
+    const originalMessage = request.splice(3);
+    const replacedMessage = originalMessage.join(' ');
+    const re = new RegExp(`\\b${request[1]}\\b`, 'g');
 
-    return replacedMsg.replace(re, commandLines[2]);
+    return replacedMessage.replace(re, request[2]);
 }
 
-function parrot(context, commandLines) {
+function parrot(request) {
     /*  Regurgitates the user's message.   
         Usage: !parrot [message]
     */
 
-    if (commandLines[1] === 'help') {
+    if (request[1] === 'help') {
         return `Usage: ${process.env.PREFIX}parrot [message]`;
     }
 
-    const originalMsg = commandLines.splice(1);
-    let replacedMsg = originalMsg.join(' ');
+    const originalMessage = request.splice(1);
+    const parrotedMessage = originalMessage.join(' ');
 
-    return replacedMsg;
+    return parrotedMessage;
 }
 
 module.exports = {
