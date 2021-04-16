@@ -19,5 +19,11 @@ module.exports.execCmd = function executeCommand(context, request) {
         return response;
     }
 
+    if (request[0] === `${process.env.PREFIX}quote`) {
+        const response = isOwner(context, request, stock.quote);
+
+        return response;
+    }
+
     return;
 };

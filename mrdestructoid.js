@@ -65,15 +65,19 @@ function onMessageHandler(target, context, msg, self) {
      whitespaces, tabs or newlines between words with just one whitespace */
   let request = msg.trim().replace(/\s\s+/g, ' ');
   request = request.split(' ');
-  const response = execCmd(context, request);
 
-  if (response) {
-    console.log(`* Executed ${request} command`);
-    client.say(target, response);
-  }
-  else {
-    console.log(`* Unknown command ${request}`);
-  }
+  (async () => {
+    const response = await execCmd(context, request);
+    
+    if (response) {
+      console.log(`* Executed ${request} command`);
+      client.say(target, response);
+    }
+    else {
+      console.log(`* Unknown command ${request}`);
+    }
+  })();
+
 }
 
 // Called every time the bot connects to Twitch chat
