@@ -1,4 +1,5 @@
-const cmd = require('./commands');
+const cmd = require('./commands/main');
+const stock = require('./commands/stock-sim');
 const { isOwner } = require('./utils/authz');
 
 module.exports.execCmd = function executeCommand(context, request) {
