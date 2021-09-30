@@ -1,5 +1,4 @@
 const cmd = require('./commands/main');
-const stock = require('./commands/stock-sim');
 const { isOwner } = require('./utils/authz');
 
 module.exports.execCmd = function executeCommand(context, request) {
@@ -10,7 +9,7 @@ module.exports.execCmd = function executeCommand(context, request) {
 
     if (request[0] === `${process.env.PREFIX}replace`) {
 
-        return cmd.replace(request);
+        return isOwner(context, request, cmd.replace);
     }
 
     if (request[0] === `${process.env.PREFIX}parrot`) {
@@ -19,5 +18,15 @@ module.exports.execCmd = function executeCommand(context, request) {
         return response;
     }
 
-    return;
+    if (request[0] === `${process.env.PREFIX}attach`) {
+        const response = isOwner(context, request, cmd.attach);
+
+        return response;
+    }
+
+    if (request[0] === `${process.env.PREFIX}glue`) {
+        const response = isOwner(context, request, cmd.glue);
+
+        return response;
+    }
 };
