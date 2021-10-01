@@ -1,5 +1,6 @@
 const { fork } = require("child_process");
 const fs = require("fs");
+const path = require("path");
 
 if (process.argv.length != 3) {
     console.log("Usage: node index.js [--alt | --cls |channel_name]");
@@ -9,12 +10,13 @@ if (process.argv.length != 3) {
     console.log("        channel_name, Bot joins specified channel.");
     process.exit();
 }
+
 if (process.argv[2] === "--alt") {
-    fork(__dirname + "\\mrdestructoid.js", ["--alt", "true"]);
+    fork(path.join(__dirname, "mrdestructoid.js"), ["--alt", "true"]);
 }
 else if (process.argv[2] === "--cls") { clearHelpers(); }
 else {
-    fork(__dirname + "\\mrdestructoid.js", ["--alt", "false", "--join", `${process.argv[2]}`]);
+    fork(path.join(__dirname, "mrdestructoid.js"), ["--alt", "false", "--join", `${process.argv[2]}`]);
 }
 
 function clearHelpers() {
