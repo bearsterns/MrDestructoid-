@@ -1,0 +1,12 @@
+{
+    "attached": false,
+    "attach": {
+        "username": null,
+        "messageToAttach": null,
+        "attachedMessage": null
+    },
+    "glue": {
+        "username": null,
+        "attachedMessage": null
+    }
+}

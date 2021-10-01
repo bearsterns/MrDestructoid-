@@ -8,15 +8,16 @@ const { execCmd } = require('./helper');
 if (
     (process.argv.length !== 4 &&
         process.argv.length !== 6) ||
-    process.argv[2] !== "--debug" ||
+    process.argv[2] !== "--alt" ||
     (
         process.argv[3] !== "true" &&
         process.argv[3] !== "false"
     )
 ) {
-    console.log("Usage: node mrdestructoid.js --debug [boolean] [OPTIONS]...");
-    console.log("\nOptions:")
-    console.log("        --join [CHANNEL_NAME], Bot joins specified channel, debug must be false. Default channel name must be specified in env vars.");
+    console.log("Usage: node mrdestructoid.js --alt <boolean> [--join <channel_name>]");
+    console.log("\nOptions:");
+    console.log("        --alt <boolean>, Switches between alternative bot username used for live testing on a default channel specified in env vars.");
+    console.log("        --join <channel_name>, Bot joins specified channel, alt flag must be false.");
     process.exit();
 }
 
@@ -123,19 +124,3 @@ function onMessageHandler(target, request, response) {
 function onConnectedHandler(addr, port) {
     console.log(`* Connected to ${addr}:${port}`);
 }
-
-// Restore listener command helpers to their inital s//te
-process.on('SIGINT', (code) => {
-    const path = './helper.js'
-    let attachHelper = fs.readFileSync(path);
-    attachHelper = JSON.parse(attachHelper);
-
-    attachHelper.attached = false;
-    attachHelper.attach.username = null;
-    attachHelper.glue.username = null;
-    attachHelper.attach.messageToAttach = null;
-    attachHelper.attach.attachedMessage = null;
-    attachHelper.glue.attachedMessage = null;
-    fs.writeFileSync(path, JSON.stringify(attachHelper, null, 4), (err) => { if (err) throw err });
-    process.exit();
-});

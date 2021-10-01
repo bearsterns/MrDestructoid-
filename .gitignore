@@ -1,6 +1,5 @@
 # Ignore dependencies
 node_modules/
-helper.json
 
 # Ignores env vars
 .env
