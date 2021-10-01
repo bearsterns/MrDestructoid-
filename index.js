@@ -1,5 +1,4 @@
 const { fork } = require("child_process");
-const process = require("process");
 const fs = require("fs");
 
 if (process.argv.length != 3) {
