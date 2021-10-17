@@ -69,7 +69,7 @@ function onMessagePreProcess(target, context, msg, self) {
     helper = JSON.parse(helper);
 
     if (self) {
-        DUPMSG_STATUS = DUPMSG_STATUS === "1" ? 0 : 1;
+        DUPMSG_STATUS = DUPMSG_STATUS === "1" ? "0" : "1";
         return; // Ignore messages from the bot
     }
     
