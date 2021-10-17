@@ -2,7 +2,7 @@ require('dotenv').config();
 const tmi = require('tmi.js');
 const fs = require('fs');
 
-const { execCmd } = require('./helper');
+const { execCmd } = require('./utils/helper');
 
 
 const SEND_INTERVAL = process.env.SEND_INTERVAL;
@@ -65,24 +65,31 @@ client.connect();
 // Called every time a message comes in
 function onMessagePreProcess(target, context, msg, self) {
     const prefixLength = process.env.PREFIX.length;
-    let helper = fs.readFileSync("./helper.json");
-    helper = JSON.parse(helper);
 
     if (self) {
         DUPMSG_STATUS = DUPMSG_STATUS === "1" ? "0" : "1";
         return; // Ignore messages from the bot
     }
-    
+
     // Prevents intentional/unintentional global cooldown
     if (((Date.now() - LAST_SENT) / 1000) < SEND_INTERVAL) {
         return;
     }
-    
+
+    let helper;
+    try {
+        helper = fs.readFileSync(`${process.cwd()}/config/helper.json`);
+        helper = JSON.parse(helper);
+    }
+    catch (err) {
+        console.error(err);
+    }
+
     // Ignore non-prefixed messages
     if (!(msg.substring(0, prefixLength) === process.env.PREFIX) && !helper.attached) {
         return;
     }
-    
+
     if (!(msg.substring(0, prefixLength) === process.env.PREFIX)
         && helper.attached
         && (context.username !== helper.attach.username
@@ -95,19 +102,23 @@ function onMessagePreProcess(target, context, msg, self) {
     /* Trims whitespace on either side of the chat message and replaces multiple
        whitespaces, tabs or newlines between words with just one whitespace */
     let request = msg.trim().replace(/\s\s+/g, ' ');
-    
+
     request = request.split(' ');
-    
+
     let response;
-    if (helper.attached
+    if (
+        (helper && helper.attached)
         && (context.username === helper.attach.username)
-        && (msg.trim() === helper.attach.messageToAttach)) {
+        && (msg.trim() === helper.attach.messageToAttach)
+    ) {
         response = {
             message: helper.attach.attachedMessage
         };
     }
-    else if (helper.attached
-        && (context.username === helper.glue.username)) {
+    else if (
+        (helper && helper.attached)
+        && (context.username === helper.glue.username)
+    ) {
         response = {
             message: helper.glue.attachedMessage
         };
@@ -129,17 +140,17 @@ function onMessageHandler(target, request, response) {
         client.say(target, response.message);
         LAST_SENT = Date.now();
     }
-    
+
     if (response && response.status) {
-        console.log(`* Executed ${request.join(' ')} command`);
+        console.log(`* Executed ${request.join(' ')} command\n`);
     }
     else if (request[0].substring(0, process.env.PREFIX.length) === process.env.PREFIX) {
-        console.log(`* Unknown command ${request.join(' ')}`);
+        console.log(`* Unknown command ${request.join(' ')}\n`);
     }
 }
 
 
 // Called every time the bot connects to Twitch chat
 function onConnectedHandler(addr, port) {
-    console.log(`* Connected to ${addr}:${port}`);
+    console.log(`* Connected to ${addr}:${port}\n`);
 }
